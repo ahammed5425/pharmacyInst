@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions | PharmaCare University</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8A2BE2;
+            --primary-dark: #6A1BB0;
+            --primary-light: #9D4EDD;
+            --accent: #00D4AA;
+            --accent-dark: #00B894;
+            --secondary: #FF6B9D;
+            --dark: #0F0F1E;
+            --darker: #080811;
+            --light-bg: #1A1A2E;
+            --light-text: #B8B8D1;
+            --white: #FFFFFF;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --gradient-secondary: linear-gradient(135deg, var(--secondary), #FF9E6D);
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--dark);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: rgba(15, 15, 30, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            padding: 15px 0;
+            transition: all 0.4s ease;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+        
+        .navbar.scrolled {
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--white) !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            color: var(--accent);
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover i {
+            transform: rotate(15deg);
+        }
+        
+        .nav-link {
+            color: var(--light-text) !important;
+            font-weight: 500;
+            margin: 0 5px;
+            padding: 8px 15px !important;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link:focus {
+            color: var(--accent) !important;
+            background-color: rgba(0, 212, 170, 0.08);
+        }
+        
+        .nav-link.active {
+            color: var(--accent) !important;
+            font-weight: 600;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            background: var(--gradient);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 70%;
+        }
+        
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+        }
+        
+        .btn-accent {
+            background: var(--gradient-secondary);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+            color: white;
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.9), rgba(138, 43, 226, 0.7)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 150px 0 100px;
+            text-align: center;
+            color: white;
+            margin-top: 76px;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--light-text);
+        }
+        
+        /* Section Styling */
+        .section-padding {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 5px;
+            background: var(--gradient);
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        
+        /* Admission Process */
+        .process-step {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--light-bg);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        /* Programs Table */
+        .programs-table {
+            background: var(--light-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .table th {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 15px;
+        }
+        
+        .table td {
+            padding: 15px;
+            border-color: rgba(138, 43, 226, 0.2);
+            color: var(--light-text);
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(138, 43, 226, 0.1);
+        }
+        
+        /* Requirements */
+        .requirements-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .requirements-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+        }
+        
+        .requirements-card h4 {
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+        
+        .requirements-card ul {
+            padding-left: 20px;
+        }
+        
+        .requirements-card li {
+            margin-bottom: 10px;
+            color: var(--light-text);
+        }
+        
+        /* Application Form */
+        .application-form {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+        }
+        
+        .form-control {
+            background-color: rgba(26, 26, 46, 0.7);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            color: var(--white);
+            padding: 12px 15px;
+            border-radius: 8px;
+        }
+        
+        .form-control:focus {
+            background-color: rgba(26, 26, 46, 0.9);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.25rem rgba(138, 43, 226, 0.25);
+            color: var(--white);
+        }
+        
+        .form-label {
+            color: var(--light-text);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        /* Important Dates */
+        .dates-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .dates-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+        }
+        
+        .date-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+        
+        .date-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* FAQ Section */
+        .accordion-item {
+            background-color: var(--light-bg);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .accordion-button {
+            background-color: var(--light-bg);
+            color: var(--white);
+            font-weight: 500;
+            padding: 20px;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(138, 43, 226, 0.1);
+            color: var(--accent);
+            box-shadow: none;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+        
+        .accordion-body {
+            background-color: rgba(26, 26, 46, 0.7);
+            color: var(--light-text);
+            padding: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to bottom, var(--darker), #000);
+            color: #fff;
+            padding: 80px 0 20px;
+        }
+        
+        .footer-heading {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .footer-heading:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 8px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 12px;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--gradient);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 25px;
+            margin-top: 50px;
+            text-align: center;
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 55px;
+            height: 55px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-header p {
+                font-size: 1.1rem;
+            }
+            
+            .section-padding {
+                padding: 70px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-atom"></i> PharmaCare
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admissions.html">Admissions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research&innovation.html">Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faculty.html">Faculty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="courses.html">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="departments.html">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="facilities.html">Facilities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="news&events.html">News & Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-accent" href="#application-form">Apply Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Admissions</h1>
+            <p>Begin your journey to becoming a healthcare leader. Explore our programs, admission requirements, and application process.</p>
+        </div>
+    </section>
+
+    <!-- Programs Overview -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Programs Offered</h2>
+            <div class="programs-table">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Program</th>
+                            <th>Duration</th>
+                            <th>Eligibility</th>
+                            <th>Intake</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>B.Pharm (Bachelor of Pharmacy)</td>
+                            <td>4 Years</td>
+                            <td>10+2 with Physics, Chemistry, Biology/Mathematics</td>
+                            <td>120</td>
+                            <td><a href="#" class="btn btn-sm btn-primary">Apply</a></td>
+                        </tr>
+                        <tr>
+                            <td>M.Pharm (Master of Pharmacy)</td>
+                            <td>2 Years</td>
+                            <td>B.Pharm with minimum 55% marks</td>
+                            <td>60</td>
+                            <td><a href="#" class="btn btn-sm btn-primary">Apply</a></td>
+                        </tr>
+                        <tr>
+                            <td>Pharm.D (Doctor of Pharmacy)</td>
+                            <td>6 Years</td>
+                            <td>10+2 with Physics, Chemistry, Biology</td>
+                            <td>30</td>
+                            <td><a href="#" class="btn btn-sm btn-primary">Apply</a></td>
+                        </tr>
+                        <tr>
+                            <td>Ph.D (Doctor of Philosophy)</td>
+                            <td>3-5 Years</td>
+                            <td>Master's degree in relevant field</td>
+                            <td>15</td>
+                            <td><a href="#" class="btn btn-sm btn-primary">Apply</a></td>
+                        </tr>
+                        <tr>
+                            <td>Diploma in Pharmacy</td>
+                            <td>2 Years</td>
+                            <td>10+2 with Science subjects</td>
+                            <td>60</td>
+                            <td><a href="#" class="btn btn-sm btn-primary">Apply</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admission Process -->
+    <section class="section-padding bg-light-custom">
+        <div class="container">
+            <h2 class="section-title">Admission Process</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h4>Application</h4>
+                        <p>Submit your application online along with required documents and application fee.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h4>Entrance Test</h4>
+                        <p>Appear for the PharmaCare Entrance Test (PCET) or submit valid scores of national tests.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h4>Interview</h4>
+                        <p>Shortlisted candidates will be called for a personal interview with the admission committee.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h4>Admission Offer</h4>
+                        <p>Selected candidates will receive admission offers and need to complete the enrollment process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Requirements Section -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Admission Requirements</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="requirements-card">
+                        <h4><i class="fas fa-graduation-cap me-2"></i> Undergraduate Programs</h4>
+                        <ul>
+                            <li>Completed 10+2 or equivalent with Physics, Chemistry, and Biology/Mathematics</li>
+                            <li>Minimum 50% aggregate marks in qualifying examination</li>
+                            <li>Valid score in PCET or other national level entrance tests</li>
+                            <li>Proof of age and identity</li>
+                            <li>Transfer certificate from previous institution</li>
+                            <li>Medical fitness certificate</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="requirements-card">
+                        <h4><i class="fas fa-user-graduate me-2"></i> Postgraduate Programs</h4>
+                        <ul>
+                            <li>Bachelor's degree in Pharmacy or related field</li>
+                            <li>Minimum 55% marks in qualifying degree</li>
+                            <li>Valid score in GPAT or PCET-PG</li>
+                            <li>Two letters of recommendation</li>
+                            <li>Statement of purpose</li>
+                            <li>Research proposal (for Ph.D programs)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Dates -->
+    <section class="section-padding bg-light-custom">
+        <div class="container">
+            <h2 class="section-title">Important Dates</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="dates-card">
+                        <h4 class="mb-4">Undergraduate Programs</h4>
+                        <div class="date-item">
+                            <span>Application Start Date</span>
+                            <span class="fw-bold">January 15, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Application End Date</span>
+                            <span class="fw-bold">April 30, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Entrance Test</span>
+                            <span class="fw-bold">May 20, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Result Declaration</span>
+                            <span class="fw-bold">June 10, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Course Commencement</span>
+                            <span class="fw-bold">July 15, 2024</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="dates-card">
+                        <h4 class="mb-4">Postgraduate Programs</h4>
+                        <div class="date-item">
+                            <span>Application Start Date</span>
+                            <span class="fw-bold">February 1, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Application End Date</span>
+                            <span class="fw-bold">May 15, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Interview Dates</span>
+                            <span class="fw-bold">May 25 - June 5, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Result Declaration</span>
+                            <span class="fw-bold">June 20, 2024</span>
+                        </div>
+                        <div class="date-item">
+                            <span>Course Commencement</span>
+                            <span class="fw-bold">July 20, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form -->
+    <section class="section-padding" id="application-form">
+        <div class="container">
+            <h2 class="section-title">Application Form</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="application-form">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="program" class="form-label">Program of Interest</label>
+                                <select class="form-select" id="program" required>
+                                    <option selected disabled>Select a program</option>
+                                    <option value="bpharm">B.Pharm</option>
+                                    <option value="mpharm">M.Pharm</option>
+                                    <option value="pharmd">Pharm.D</option>
+                                    <option value="phd">Ph.D</option>
+                                    <option value="diploma">Diploma in Pharmacy</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="qualification" class="form-label">Highest Qualification</label>
+                                <input type="text" class="form-control" id="qualification" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Additional Information</label>
+                                <textarea class="form-control" id="message" rows="4"></textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                                <label class="form-check-label" for="agreeTerms">I agree to the terms and conditions</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section-padding bg-light-custom">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            What is the application fee?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The application fee is ₹1000 for Indian students and $50 for international students. This fee is non-refundable and must be paid at the time of submitting your application.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            Do you offer scholarships?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, we offer various scholarships based on merit, financial need, and special categories. Our merit scholarships cover up to 100% of tuition fees for exceptional students. You can find more details on the scholarships page.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            Is hostel accommodation available?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, we provide separate hostel facilities for male and female students. The hostels are equipped with modern amenities including Wi-Fi, recreation rooms, and 24/7 security. Hostel fees are additional to the tuition fees.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                            Can I apply for multiple programs?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes, you can apply for multiple programs, but you will need to submit separate applications for each program and pay the application fee for each one.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                            What is the medium of instruction?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            The medium of instruction for all programs is English. All lectures, examinations, and study materials are provided in English.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5 class="footer-heading">PharmaCare University</h5>
+                    <p>Advancing pharmaceutical education, research, and healthcare since 1985. Committed to developing skilled professionals for the global healthcare industry.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="courses.html">Programs</a></li>
+                        <li><a href="admissions.html">Admissions</a></li>
+                        <li><a href="research.html">Research</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading">Contact Info</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Pharma Avenue, Medical District, Mumbai, India</li>
+                        <li><i class="fas fa-phone me-2"></i> +91 22 1234 5678</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@pharmacare.edu</li>
+                        <li><i class="fas fa-clock me-2"></i> Mon - Fri: 9:00 AM - 5:00 PM</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-heading">Newsletter</h5>
+                    <p>Subscribe to our newsletter for the latest updates on courses, events, and admissions.</p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your Email" aria-label="Email">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 PharmaCare University. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Back to top button
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+            
+            // Navbar scroll effect
+            if (window.scrollY > 50) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
